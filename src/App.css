@@ -24,6 +24,10 @@
   color: white;
 }
 
+.table-header {
+  background-color: #eceff3;
+}
+
 .App-link {
   color: #61dafb;
 }
