@@ -24,8 +24,10 @@
   color: white;
 }
 
-.table-header {
-  background-color: #eceff3;
+.css-t89xny-MuiDataGrid-columnHeaderTitle {
+  background-color: #f2f5f8;
+  font-size: 14px;
+  font-weight: 700 !important;
 }
 
 .App-link {

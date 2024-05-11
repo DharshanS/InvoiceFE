@@ -22,6 +22,6 @@ export const deleteInvoice = (id) => {
   return api.delete(`/invoices/${id}`);
 };
 
-export const updateInvoice = (id, data) => {
-  return api.put(`/invoices/${id}`, data);
+export const updateInvoice = (invoice) => {
+  return api.put("/invoices", { invoice });
 };

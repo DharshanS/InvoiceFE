@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -15,7 +15,7 @@ import AddIcon from "@mui/icons-material/Add";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import { format } from "date-fns";
-import { addInvoice } from "../services/api";
+import { addInvoice, updateInvoice } from "../services/api";
 
 export default function InvoiceModel({
   setOpen,
@@ -25,8 +25,9 @@ export default function InvoiceModel({
   setInvoiceList,
   setIsLoading,
   fetchAllInvoices,
+  update,
+  setUpdate,
 }) {
-  const buttonRef = useRef(null);
   const handleChange = (event) => {
     const { name, value } = event?.target;
 
@@ -39,20 +40,29 @@ export default function InvoiceModel({
   const handleDateChange = (event) => {
     setData((prev) => ({
       ...prev,
-      invoiceDate: event,
+      invoiceDate: format(new Date(event), "yyyy-MM-dd"),
     }));
   };
 
-  console.log(values);
+  const track = (event) => {
+    setUpdate(false);
+    setOpen(!open);
+  };
+
   function constructInvoicePayload() {
-    addInvoice(values).then(() => {
+    if (!update) {
+      addInvoice(values).then(() => {
+        fetchAllInvoices(setInvoiceList, setIsLoading);
+        setOpen(false);
+        setData(null);
+      });
+    }
+    updateInvoice(values).then(() => {
       fetchAllInvoices(setInvoiceList, setIsLoading);
       setOpen(false);
       setData(null);
     });
   }
-  const dataValue = new Date(values?.invoiceDate);
-  const formattedDate = isNaN(dataValue.getTime()) ? null : dataValue;
 
   return (
     <div>
@@ -60,8 +70,8 @@ export default function InvoiceModel({
         <Button
           variant="contained"
           color="success"
-          onClick={() => setOpen(!open)}
-          ref={buttonRef}
+          // onClick={() => setOpen(!open)}
+          onClick={track}
         >
           <AddIcon />
           Add New Invoice
@@ -119,7 +129,6 @@ export default function InvoiceModel({
                   <DatePicker
                     label="Invoice Date"
                     type="date"
-                    value={formattedDate}
                     onChange={handleDateChange}
                     name="invoiceDate"
                   ></DatePicker>

@@ -9,18 +9,14 @@ function AppDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(null);
   const [open, setOpen] = React.useState(false);
+  const [update, setUpdate] = React.useState(false);
 
   useEffect(() => {
     fetchAllInvoices(setInvoiceList, setIsLoading);
   }, []);
 
-  // const refreshInvoiceList = (data) => {
-  //     fetchAllInvoices(setInvoiceList, setIsLoading);
-  // }
-
   return (
     <Container>
-      {/* <AddInvoice onEmitY={refreshInvoiceList} openModel={open}  /> */}
       <AddInvoice
         open={open}
         setOpen={setOpen}
@@ -29,6 +25,8 @@ function AppDashboard() {
         setIsLoading={setIsLoading}
         fetchAllInvoices={fetchAllInvoices}
         setData={setData}
+        update={update}
+        setUpdate={setUpdate}
       />
       <InvoiceList
         isLoading={isLoading}
@@ -39,6 +37,7 @@ function AppDashboard() {
         setInvoiceList={setInvoiceList}
         setIsLoading={setIsLoading}
         fetchAllInvoices={fetchAllInvoices}
+        setUpdate={setUpdate}
       />
     </Container>
   );

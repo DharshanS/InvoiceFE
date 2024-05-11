@@ -18,6 +18,7 @@ function InvoiceTable({
   setInvoiceList,
   setIsLoading,
   fetchAllInvoices,
+  setUpdate,
 }) {
   const columns = [
     {
@@ -53,14 +54,17 @@ function InvoiceTable({
       headerClassName: "table-header",
     },
     {
+      field: "amount",
+      headerName: "Amount",
+      type: "String",
+      width: 90,
+      headerClassName: "table-header",
+    },
+    {
       field: "status",
       headerName: "Status",
-      description: "This column has a value getter and is not sortable.",
-      sortable: false,
       width: 160,
       headerClassName: "table-header",
-      valueGetter: (value, row) =>
-        `${row.firstName || ""} ${row.lastName || ""}`,
     },
     {
       field: "Action",
@@ -81,6 +85,7 @@ function InvoiceTable({
           const currentRow = params.row;
           setOpen(true);
           setData(currentRow);
+          setUpdate(true);
         };
 
         const b = { paddingTop: "10px" };
@@ -116,12 +121,7 @@ function InvoiceTable({
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <DataGrid
-            rows={invoiceList}
-            columns={columns}
-            pageSize={5}
-            checkboxSelection
-          />
+          <DataGrid rows={invoiceList} columns={columns} pageSize={5} />
         )}
       </div>
     </Container>
